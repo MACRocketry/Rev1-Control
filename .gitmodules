@@ -1,0 +1,3 @@
+[submodule "lib/MPU9250"]
+	path = lib/MPU9250
+	url = https://github.com/MACRocketry/MPU9250.git
