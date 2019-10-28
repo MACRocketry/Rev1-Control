@@ -1,3 +1,4 @@
 # Generic makefile for project
-MAKEDIR = ./makerules
+PROJDIR := ./
+MAKEDIR := $(PROJDIR)/makerules
 include $(MAKEDIR)/rules.mk
