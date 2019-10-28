@@ -31,3 +31,12 @@ deviot.*
 platformio.ini
 !makerules/platformio.ini
 
+# ignore emacs backups/cacahe
+*~
+\#*\#
+/.emacs.*
+*.elc
+auto-save-list
+tramp
+.\#*
+
