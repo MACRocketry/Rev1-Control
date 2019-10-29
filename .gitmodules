@@ -1,3 +1,6 @@
 [submodule "lib/MPU9250"]
 	path = lib/MPU9250
 	url = https://github.com/MACRocketry/MPU9250.git
+[submodule "lib/BMP280"]
+	path = lib/BMP280
+	url = https://github.com/MACRocketry/BMP280.git
