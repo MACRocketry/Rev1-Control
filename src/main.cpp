@@ -8,15 +8,7 @@
 MPU9250_DMP imu;
 SdCard sd;
 
-float accel_x = 0;
-float accel_y = 0;
-float accel_z = 0;
-float gyro_x = 0;
-float gyro_y = 0;
-float gyro_z = 0;
-float mag_x = 0;
-float mag_y = 0;
-float mag_z = 0;
+float accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z = 0;
 
 void calc_imu_data(void);
 void write_imu_data(void);
@@ -44,7 +36,7 @@ void setup()
 
 void loop()
 {
-	if ( imu.dataReady() )
+	if (imu.dataReady())
 	{
 		imu.update(UPDATE_ACCEL | UPDATE_GYRO | UPDATE_COMPASS);
 		calc_imu_data();
