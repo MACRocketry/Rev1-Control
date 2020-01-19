@@ -4,3 +4,6 @@
 [submodule "lib/BMP280"]
 	path = lib/BMP280
 	url = https://github.com/MACRocketry/BMP280.git
+[submodule "lib/SdCard"]
+	path = lib/SdCard
+	url = https://github.com/MACRocketry/SdCard.git

@@ -3,23 +3,27 @@
 #include <SparkFunMPU9250-DMP.h>
 #include <SdCard.h>
 
+#define SerialPort Serial
+
 MPU9250_DMP imu;
 SdCard sd;
 
-float accelX = 0;
-float accelY = 0;
-float accelZ = 0;
-float gyroX = 0;
-float gyroY = 0;
-float gyroZ = 0;
-float magX = 0;
-float magY = 0;
-float magZ = 0;
+float accel_x = 0;
+float accel_y = 0;
+float accel_z = 0;
+float gyro_x = 0;
+float gyro_y = 0;
+float gyro_z = 0;
+float mag_x = 0;
+float mag_y = 0;
+float mag_z = 0;
 
-void calcIMUData(void);
+void calc_imu_data(void);
+void write_imu_data(void);
+
 void setup()
 {
-    Serial.begin(9600);
+    SerialPort.begin(9600);
 	if (imu.begin() != INV_SUCCESS)
 	{
 		while (1)
@@ -43,29 +47,27 @@ void loop()
 	if ( imu.dataReady() )
 	{
 		imu.update(UPDATE_ACCEL | UPDATE_GYRO | UPDATE_COMPASS);
-		printIMUData();
+		calc_imu_data();
+		write_imu_data();
 	}
-	calcIMUData();
-	writeImuData();
 }
 
-void writeImuData()
+void write_imu_data(void)
 {
-	sd.print("%d,"%milis());
-	sd.printf("%.4f,%.4f,%.4f"% accelX, accelY,accelZ);
-	sd.print("%.4f,%.4f,%.4f"% gyroX,gyroY,gyroZ);
-	sd.print("%.4f,%.4f,%.4f"% magX,magY,magZ);
-	sd.println();
+	sd.printf("%d,",millis());
+	sd.printf("%.4f,%.4f,%.4f",accel_x, accel_y,accel_z);
+	sd.printf("%.4f,%.4f,%.4f",gyro_x,gyro_y,gyro_z);
+	sd.printf("%.4f,%.4f,%.4f\n",mag_x,mag_y,mag_z);
 }
-void calcImuData(void)
+void calc_imu_data(void)
 {  
-  accelX = imu.calcAccel(imu.ax);
-  accelY = imu.calcAccel(imu.ay);
-  accelZ = imu.calcAccel(imu.az);
-  gyroX = imu.calcGyro(imu.gx);
-  gyroY = imu.calcGyro(imu.gy);
-  gyroZ = imu.calcGyro(imu.gz);
-  magX = imu.calcMag(imu.mx);
-  magY = imu.calcMag(imu.my);
-  magZ = imu.calcMag(imu.mz);
+  accel_x = imu.calcAccel(imu.ax);
+  accel_y = imu.calcAccel(imu.ay);
+  accel_z = imu.calcAccel(imu.az);
+  gyro_x = imu.calcGyro(imu.gx);
+  gyro_y = imu.calcGyro(imu.gy);
+  gyro_z = imu.calcGyro(imu.gz);
+  mag_x = imu.calcMag(imu.mx);
+  mag_y = imu.calcMag(imu.my);
+  mag_z = imu.calcMag(imu.mz);
 }
