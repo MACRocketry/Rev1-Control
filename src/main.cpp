@@ -5,8 +5,8 @@
 
 #define SerialPort Serial
 
-MPU9250_DMP imu;
-SdCard sd;
+mpu9250DMP imu;
+SdCard *sd;
 
 float accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z = 0;
 
@@ -16,6 +16,7 @@ void write_imu_data(void);
 void setup()
 {
     SerialPort.begin(9600);
+    sd = SdCard::ConnectSdCard(0, 10);
 	if (imu.begin() != INV_SUCCESS)
 	{
 		while (1)
@@ -45,11 +46,13 @@ void loop()
 }
 
 void write_imu_data(void)
-{
-	sd.printf("%d,",millis());
-	sd.printf("%.4f,%.4f,%.4f",accel_x, accel_y,accel_z);
-	sd.printf("%.4f,%.4f,%.4f",gyro_x,gyro_y,gyro_z);
-	sd.printf("%.4f,%.4f,%.4f\n",mag_x,mag_y,mag_z);
+{		
+	char str[512];
+	int bytes = sprintf(str, "%d, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f", 
+						millis(),accel_x, accel_y,accel_z,gyro_x,gyro_y,gyro_z,mag_x,mag_y
+						,mag_z);
+	SerialPort.println(str);
+	sd->write(str, bytes);
 }
 void calc_imu_data(void)
 {  
