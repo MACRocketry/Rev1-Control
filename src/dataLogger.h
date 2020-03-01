@@ -25,6 +25,8 @@ public:
 	~dataLogger();
 
 private:
+	int writeFormat();  
+	
 #define BUFFER_SIZE 512
 	char str[BUFFER_SIZE] = "";
 	SdCard *sd;
