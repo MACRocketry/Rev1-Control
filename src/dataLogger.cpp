@@ -40,7 +40,7 @@ dataLogger::~dataLogger()
 int dataLogger::writeFormat()
 {
 	char temp[BUFFER_SIZE] = "";
-	sd->write(temp, snprintf(temp, BUFFER_SIZE ,"time, ax, ay, az, gx, gy, gz, mx, my, mz\n"));
+	sd->write(temp, snprintf(temp, BUFFER_SIZE ,"time, ax, ay, az, gx, gy, gz, mx, my, mz, t, p, a\n"));
 	return bytesUsed;
 }
 
@@ -53,8 +53,9 @@ int dataLogger::writeIMU(imuData data, float time)
 	writeAccel(data.ax, data.ay, data.az,false);
 	writeGyro(data.gx, data.gy, data.gz,false);
 	writeMag(data.mx, data.my, data.mz, false);
+	writeBMP(data.temp, data.pressure, data.alt, false);
 	bytesUsed += snprintf(str + bytesUsed, BUFFER_SIZE - bytesUsed, "\n");
-	PRINT(str);
+	// PRINT(str);
 	PRINTLN(sd->write(str, bytesUsed));
 	return bytesUsed;
 }
@@ -83,6 +84,15 @@ int dataLogger::writeGyro(float x, float y, float z, bool gyroOnly)
 	if (gyroOnly) bytesUsed = 0;
 	numBytes += snprintf(str + bytesUsed,BUFFER_SIZE - bytesUsed, "%s,%s,%s",String(x).c_str(),String(y).c_str(),String(z).c_str());
 	if (gyroOnly) numBytes += snprintf(str + bytesUsed + numBytes,BUFFER_SIZE - bytesUsed, "\n");
+	bytesUsed += numBytes;
+	return bytesUsed;
+}
+int dataLogger::writeBMP(float temp, float pressure, float alt, bool bmpOnly)
+{
+	int numBytes = 0;
+	if (bmpOnly) bytesUsed = 0;
+	numBytes += snprintf(str + bytesUsed,BUFFER_SIZE - bytesUsed, "%s,%s,%s",String(temp).c_str(),String(pressure).c_str(),String(alt).c_str());
+	if (bmpOnly) numBytes += snprintf(str + bytesUsed + numBytes,BUFFER_SIZE - bytesUsed, "\n");
 	bytesUsed += numBytes;
 	return bytesUsed;
 }

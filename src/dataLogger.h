@@ -11,6 +11,9 @@ typedef struct{
 	float mx;
 	float my;
 	float mz;
+	float temp;
+	float pressure;
+	float alt;
 }imuData;
 
 class dataLogger
@@ -20,7 +23,7 @@ public:
 	int writeAccel(float x, float y, float z, bool accelOnly = true);
 	int writeGyro(float x, float y, float z, bool gyroOnly = true);
 	int writeMag(float x, float y, float z, bool magOnly = true);
-
+	int writeBMP(float temp, float pressure, float alt, bool bmpOnly = true);
 	dataLogger();
 	~dataLogger();
 
